@@ -4,7 +4,7 @@
 	// $db = mysql_connect('mysql103.phy.lolipop.lan','LAA0673641','nexseed');
 
 	//接続するDBにonelin_bbsを選択
-	mysqli_select_db('oneline_bbs',$db);
+	mysqli_select_db('oneline_bbs',$db);　//<- 引数の指定が逆です
 	// mysql_select_db('LAA0673641-onelinebbs',$db);
 	
 
