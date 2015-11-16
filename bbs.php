@@ -4,7 +4,7 @@
 	// $db = mysql_connect('mysql103.phy.lolipop.lan','LAA0673641','nexseed');
 
 	//接続するDBにonelin_bbsを選択
-	mysqli_select_db('oneline_bbs',$db);
+	mysqli_select_db($db,'oneline_bbs');
 	// mysql_select_db('LAA0673641-onelinebbs',$db);
 	
 
@@ -12,7 +12,7 @@
 	mysqli_set_charset('utf8',$db);
 
 	//var_dumpで変数の中身を確認
-	// var_dump($_POST);
+	var_dump($_POST);
 
 	// if (!$db) {
  //    	die('接続失敗です。'.mysql_error());
@@ -22,12 +22,17 @@
 	//POST送信されたら
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-    	mysqli_select_db('oneline_bbs',$db);
     	// $sql = "INSERT INTO posts SET nickname='$_POST[nickname]',comment='$_POST[comment]',password='',created=NOW()";
-       $nickname = mysqli_real_escape_string($_POST['nickname']); 
-       $comment = mysqli_real_escape_string($_POST['comment']); 
+       $nickname = mysqli_real_escape_string($_POST['nickname']);
+       $comment = mysqli_real_escape_string($_POST['comment']);
+       $password = '';
 
-       $sql = sprintf('INSERT INTO posts SET nickname="%s", comment="%s", created=NOW()',$nickname, $comment);
+       //下記の書き方にするとDBに空欄が挿入されてしまいます。。。。
+       $sql = sprintf("INSERT INTO posts SET nickname='%s', comment='%s', password ='%s', created=NOW();",
+             $nickname, 
+             $comment,
+             $password
+       );
   
        $_SESSION["nickname"] = $nickname;
 
@@ -37,6 +42,9 @@
 
     	//bbs.php再読み込み
     	// header('Location: bbs.php');
+
+       echo $sql;
+       echo $_POST;
 
     }
 ?>
