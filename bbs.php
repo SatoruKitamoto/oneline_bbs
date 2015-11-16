@@ -8,7 +8,7 @@
 	// mysql_select_db('LAA0673641-onelinebbs',$db);
 	
 
-	//文字コードの設定
+	//文字コードの設定 
 	mysqli_set_charset('utf8',$db);
 
 	//var_dumpで変数の中身を確認
