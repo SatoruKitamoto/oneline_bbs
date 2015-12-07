@@ -12,7 +12,7 @@
 	mysqli_set_charset('utf8',$db);
 
 	//var_dumpで変数の中身を確認
-	var_dump($_POST);
+	// var_dump($_POST);
 
 	// if (!$db) {
  //    	die('接続失敗です。'.mysql_error());
@@ -23,17 +23,17 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     	// $sql = "INSERT INTO posts SET nickname='$_POST[nickname]',comment='$_POST[comment]',password='',created=NOW()";
-       $nickname = mysqli_real_escape_string($_POST['nickname']);
-       $comment = mysqli_real_escape_string($_POST['comment']);
+       $nickname = mysqli_real_escape_string($db,$_POST['nickname']);
+       $comment = mysqli_real_escape_string($db,$_POST['comment']);
        $password = '';
 
-       //下記の書き方にするとDBに空欄が挿入されてしまいます。。。。
+    
        $sql = sprintf("INSERT INTO posts SET nickname='%s', comment='%s', password ='%s', created=NOW();",
              $nickname, 
              $comment,
              $password
        );
-  
+  // var_dump($sql);
        $_SESSION["nickname"] = $nickname;
 
 		//SQL文実行
@@ -41,10 +41,9 @@
        mysqli_query($db, $sql) or die(mysqli_error($db));
 
     	//bbs.php再読み込み
-    	// header('Location: bbs.php');
+    	header('Location: bbs.php');
 
-       echo $sql;
-       echo $_POST;
+
 
     }
 ?>
@@ -138,14 +137,14 @@
 				<div class="col-md-8 content-margin-top">
 					<?php
 						//1.データの取得
-						// $sql = 'SELECT * FROM posts ORDER BY `created` DESC';
-						// $posts = mysqli_query($sql,$db) or die(mysqli_error($db));
+						$sql = 'SELECT * FROM posts WHERE title' ;
+						$posts = mysqli_query($db,$sql) or die(mysqli_error($db));
 					?>
 
 					<div class="timeline-centered">
 
 						<?php 
-						// while ($post = mysqli_fetch_assoc($posts)): 
+						while ($post = mysqli_fetch_assoc($posts)): 
 						?> 
  
  
@@ -160,20 +159,20 @@
 	 
 	 				                <div class="timeline-label"> 
 					                    <h2><a href="#"><?php 
-					                    // echo $post['nickname'] 
+					                    echo $post['nickname'] 
 					                    ?></a> <span>
 					                    <?php 
-					                    // echo $post['created'] 
+					                    echo $post['created'] 
 					                    ?></span></h2> 
 					                    <p><?php
-					                     // echo $post['comment']
+					                     echo $post['comment']
 					                      ?></p> 
 					                </div> 
 	            				 </div> 
   
          					</article> 
          				<?php 
-         				// endwhile; 
+         				endwhile; 
          				?>
  
          				<article class="timeline-entry begin"> 
